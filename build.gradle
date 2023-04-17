@@ -65,7 +65,7 @@ task uberJar(type: Jar) {
     manifest {
         attributes 'Main-Class': "${mainClassName}"
     }
-    archiveBaseName = "${rootProject.name}"
+    archiveBaseName = "${rootProject.name}-all"
     from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
