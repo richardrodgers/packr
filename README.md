@@ -132,18 +132,6 @@ One could code:
 
 Additional methods will be added as other common use-cases are identified.
 
-## Bagger on the command line ##
-
-The library bundles a very simple command-line tool called _Bagger_ that exposes much of the API.
-Sample invocation:
-
-    java -cp <classpath> edu.mit.lib.bagit.Bagger fill newbag -p payloadFile -m Metadata-Name='metadata value'
-
-The Bagger command-line tool can be conveniently run from a so-called _uber_ jar that is a build option.
-Uber jars include all dependencies in a single executable jar (no classpath declaration required):
-
-    java -jar bagit-all-x.y.jar validate mybag
-
 ### Download ###
 
 The distribution jars are kept at [Bintray](https://bintray.com), so make sure that repository is declared.
