@@ -204,9 +204,9 @@ public class BagTest {
         BagBuilder filler2 = new BagBuilder(bagFile2).payload("first.pdf", payload1);
         filler2.autoGenerate(new HashSet<>()).metadata(SOURCE_ORG, val2);
         Bag bag2 =  filler2.build();
-        assertNull(bag2.metadata(BAGGING_DATE));
-        assertNull(bag2.metadata(BAG_SIZE));
-        assertNull(bag2.metadata(PAYLOAD_OXUM));
+        assertTrue(bag2.metadata(BAGGING_DATE).isEmpty());
+        assertTrue(bag2.metadata(BAG_SIZE).isEmpty());
+        assertTrue(bag2.metadata(PAYLOAD_OXUM).isEmpty());
         Path bagFile3 = tempFolder.newFolder("bag7a").toPath();
         BagBuilder filler3 = new BagBuilder(bagFile3).payload("first.pdf", payload1);
         Set<Bag.MetadataName> names = new HashSet<>();
@@ -214,9 +214,23 @@ public class BagTest {
         names.add(PAYLOAD_OXUM);
         filler3.autoGenerate(names);
         Bag bag3 = filler3.build();
-        assertNull(bag3.metadata(BAGGING_DATE));
+        assertTrue(bag3.metadata(BAGGING_DATE).isEmpty());
         assertNotNull(bag3.metadata(BAG_SIZE));
         assertNotNull(bag3.metadata(PAYLOAD_OXUM));
+    }
+
+    @Test
+    public void unknownMetadataName() throws IOException {
+        Path bagFile = tempFolder.newFolder("bag6a").toPath();
+        BagBuilder filler = new BagBuilder(bagFile).payload("first.pdf", payload1);
+        String val1 = "metadata value";
+        String val2 = "JUnit5 Test Harness";
+        filler.metadata("Metadata-test", val1);
+        filler.metadata(SOURCE_ORG, val2);
+        Bag bag = filler.build();
+        assertTrue(bag.metadata(SOURCE_ORG).size() > 0);
+        assertTrue(bag.metadata("foobar").isEmpty());
+        assertTrue(bag.property("nowhere", "foobar").isEmpty());
     }
 
     @Test

@@ -409,7 +409,7 @@ public class Bag {
      * Returns the names of all the metadata properties in
      * the standard metadata file (bag-info.txt) in order declared.
      *
-     * @return values property values for passed name, or empty list if no such property defined.
+     * @return values property values for passed name, or empty list if no such properties defined.
      * @throws IOException if unable to read metadata
      */
     public List<String> metadataNames() throws IOException {
@@ -490,10 +490,14 @@ public class Bag {
                     }
                     addProp(propName, valSb.toString(), mdSet);
                     mdCache.put(relPath, mdSet);
+                } catch (IOException ioe) {
+                    // no property file at relpath
+                    // fall-through returns empty list
                 }
             }
         }
-        return mdSet.get(name);
+        var values = mdSet.get(name);
+        return values == null ? List.of() : values;
     }
 
     /**
