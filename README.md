@@ -4,7 +4,7 @@ This project contains a lightweight java library to support creation and consump
 by the BagIt Spec (IETF RFC 8493 version 1.0). It requires a Java 17 or better to run, has a single dependency on the Apache
 commons compression library for support of tarred Gzip archive format (".tgz"), and is Apache 2 licensed. Build with Gradle.
 
-[![Build Status](https://travis-ci.org/richardrodgers/bagit.svg?branch=master)](https://travis-ci.org/richardrodgers/bagit)
+[![Build Status](https://github.com/richardrodgers/packr/actions/workflows/gradle.yml/badge.svg?branch=master)](https://github.com/richardrodgers/packr/actions/workflows/gradle.yml)
 [![javadoc](https://javadoc.io/badge2/edu.mit.lib/bagit/javadoc.svg)](https://javadoc.io/doc/edu.mit.lib/bagit)
 
 ## Use Cases ##
@@ -123,28 +123,19 @@ be _unable_ to obtain a File reference to a payload file, but _could_ get an I/O
 In other words, the content can be accessed, but the underlying representation cannot be altered, and
 to this degree the bag contents are _tamper-proof_.
 
-Finally, the library bundles several convenience (helper) methods for common operations on bags, using
-the _Adapter_ class. One illustrative use case would be to upgrade an existing bag to a better checksum algorithm.
-One could code:
-
-    Bag oldbag = Serde.fromPackage(oldBagZip);
-    Path newbagZip = Serde.toPackage(Adapter.copy(newbag, oldbag, "SHA-512"));
-
-Additional methods will be added as other common use-cases are identified.
-
 ### Download ###
 
-The distribution jars are kept at [Bintray](https://bintray.com), so make sure that repository is declared.
+The distribution jars are kept at Maven Central, so make sure that repository is declared.
 Then (NB: using the most current version), for Gradle:
 
-    implementation 'edu.mit.lib:bagit:1.0'
+    implementation 'org.modrepo:packr:1.2'
 
 or Maven:
 
     <dependency>
-      <groupId>edu.mit.lib</groupId>
-      <artifactId>bagit</artifactId>
-      <version>1.0</version>
+      <groupId>org.modrepo</groupId>
+      <artifactId>packr</artifactId>
+      <version>1.2</version>
     </dependency>
 
 in a standard pom.xml dependencies block.
