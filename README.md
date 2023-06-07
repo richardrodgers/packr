@@ -4,7 +4,7 @@ This project contains a lightweight java library to support creation and consump
 by the BagIt Spec (IETF RFC 8493 version 1.0). It requires a Java 17 or better to run, has a single dependency on the Apache
 commons compression library for support of tarred Gzip archive format (".tgz"), and is Apache 2 licensed. Build with Gradle.
 
-[![Build Status](https://github.com/richardrodgers/packr/actions/workflows/gradle.yml/badge.svg?branch=master)](https://github.com/richardrodgers/packr/actions/workflows/gradle.yml)
+[![Build Status](https://github.com/richardrodgers/packr/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/richardrodgers/packr/actions/workflows/gradle.yml)
 [![javadoc](https://javadoc.io/badge2/edu.mit.lib/bagit/javadoc.svg)](https://javadoc.io/doc/edu.mit.lib/bagit)
 
 ## Use Cases ##
