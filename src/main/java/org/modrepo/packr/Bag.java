@@ -545,6 +545,20 @@ public class Bag {
         return mfMap;
     }
 
+    /**
+     * Returns byte count scaled to standard units
+     * @param size number of bytes
+     * @return scaled size scaled to standard units
+     */
+    private static final String[] tags = {"bytes", "KB", "MB", "GB", "TB" };
+    public static String scaledSize(long size, int index) {
+        if (size < 1000) {
+            return size + " " + tags[index];
+        } else {
+            return scaledSize(size / 1000, index + 1);
+        }
+    }
+
     // count of files in a directory, including subdirectory files (but not the subdir itself)
     private int fileCount(Path dir) throws IOException {
         int count = 0;
@@ -676,14 +690,5 @@ public class Bag {
             chars[2 * i + 1] = HEX_CHARS[data[i] & 0x0F];
         }
         return new String(chars);
-    }
-
-    private static final String[] tags = {"bytes", "KB", "MB", "GB", "TB" };
-    static String scaledSize(long size, int index) {
-        if (size < 1000) {
-            return size + " " + tags[index];
-        } else {
-            return scaledSize(size / 1000, index + 1);
-        }
     }
 }
