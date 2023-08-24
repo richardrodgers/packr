@@ -8,11 +8,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -389,7 +389,7 @@ public class BagTest {
         assertTrue(bag.isValid());
     }
 
-     @Test
+    @Test
     public void streamFilePayloadParityBag() throws IOException {
         Path bagFile = tempFolder.newFolder("bag16").toPath();
         BagBuilder filler = new BagBuilder(bagFile);
@@ -412,7 +412,7 @@ public class BagTest {
         assertTrue(manif.get("data/first.pdf").equals(manif.get("data/second.pdf")));
     }
 
-     @Test
+    @Test
     public void streamWrittenBag() throws IOException {
         Path bagFile = tempFolder.newFolder("bag17").toPath();
         BagBuilder filler = new BagBuilder(bagFile);
@@ -421,17 +421,32 @@ public class BagTest {
             plout.write("lskdflsfevmep".getBytes());
         }
         plout.close();
+        OutputStream rout = filler.tagStream("rootTag.txt");
+        for (int i = 0; i < 1000; i++) {
+            rout.write("lskdflsfevmep".getBytes());
+        }
+        rout.close();
         OutputStream tout = filler.tagStream("tags/firstTag.txt");
         for (int i = 0; i < 1000; i++) {
             tout.write("lskdflsfevmep".getBytes());
         }
         tout.close();
+        OutputStream dout = filler.tagStream("tags1/tags2/firstTag.txt");
+        for (int i = 0; i < 1000; i++) {
+            dout.write("lskdflsfevmep".getBytes());
+        }
+        dout.close();
         filler.build();
         Path payloadDir = bagFile.resolve(DATA_DIR);
         Path pload1 = payloadDir.resolve("first.pdf");
         assertTrue(Files.exists(pload1));
+        Path rtag1 = bagFile.resolve("rootTag.txt");
+        assertTrue(Files.exists(rtag1));
         Path ttag1 = bagFile.resolve("tags/firstTag.txt");
         assertTrue(Files.exists(ttag1));
+        Path ttag2 = bagFile.resolve("tags1/tags2/firstTag.txt");
+        assertTrue(Files.isDirectory(bagFile.resolve("tags1/tags2"), LinkOption.NOFOLLOW_LINKS));
+        assertTrue(Files.exists(ttag2));
         // assure completeness
         Bag bag = fromDirectory(bagFile, false);
         assertTrue(bag.isComplete());
